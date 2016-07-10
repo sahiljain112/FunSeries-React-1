@@ -1,6 +1,5 @@
 
 var SurveyItem = require('./SurveyItem');
-
 var SurveyList = React.createClass({
   // the Surveylist component ,url attribute get from outside
 
@@ -9,7 +8,7 @@ var SurveyList = React.createClass({
       data: []
     };
   },
-  componentDidMount: function(){
+  componentWillMount: function(){
     $.ajax({
       url: this.props.url,
       type:"GET",
@@ -24,9 +23,11 @@ var SurveyList = React.createClass({
       }.bind(this)
     });
   },
+
   render: function(){
     return (
-      <div>
+      <div className = "container-fluid">
+      <h3 className = "main-header"> Survey List </h3>
       {this.state.data.map(function(obj,i){
         return <SurveyItem item={obj} key={i} onShowDes={this.onShowDes}/>;
       })}

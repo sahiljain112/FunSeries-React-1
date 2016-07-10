@@ -5,7 +5,8 @@ var SurveyItem = React.createClass({
 
    getInitialState: function(){
     return {
-      show: false
+      show: false,
+      showSurvey: false
     };
   },
 
@@ -14,20 +15,39 @@ var SurveyItem = React.createClass({
     this.setState({ show: !this.state.show });
   },
 
-  render: function(){
-    const desc = this.state.show ?
-      <SurveyDescription des={this.props.item.description}/>
-      : null;
-    return (
-      <div id = "5" className = "content" onClick={this.toggleDes}>
-        <p>{this.props.item.id}</p>
-        <p>{this.props.item.title}</p>
-        <p>{this.props.item.creation_date}</p>
-        <p>{this.props.item.short_description}</p>
-        {desc}
-        <button className = "btn btn-primary"> <a href = "html/survey.html"> </button>
+  toggleSurvey: function(){
+    this.setState({ showSurvey: !this.state.showSurvey });
+  },
 
-      </div>
+  render: function(){
+
+    const descClass = this.state.show ? "glyphicon glyphicon-chevron-up" : "glyphicon glyphicon-chevron-down";
+    const desc = this.state.show ? <SurveyDescription des={this.props.item.description}/> : null;
+
+    const displayLaunchSurvey = this.state.showSurvey ? 
+        <SurveyQuestionsWizard endSurvey = {this.toggleSurvey} /> : null;
+    
+    var surveyTitle = this.state.showSurvey ? "Close Survey": "Launch Survey";
+     return (
+      <div>
+      <br/>
+      <div className = "container-fluid" id = "content" >
+         <br/>
+         <h3> {this.props.item.title} </h3>
+        <p>ID: {this.props.item.id}</p>
+        
+        <p>Date: {this.props.item.creation_date}</p>
+        <p onClick={this.toggleDes}> Description <span className = {descClass}></span> </p>
+        {desc}
+         
+         {displayLaunchSurvey}
+         <br/>
+           <button className = "btn btn-primary" onClick = {this.toggleSurvey}> {surveyTitle} </button>
+         <br/> <br/>
+         </div>
+
+         <br/>
+    </div>
     );
   }
 });
